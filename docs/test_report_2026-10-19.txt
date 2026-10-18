@@ -1,0 +1,8 @@
+tests/test_kv_cache.py::test_max_length_check PASSED                     [ 80%]
+tests/test_kv_cache.py::test_invalid_token_id PASSED                     [ 84%]
+tests/test_kv_cache.py::test_rectangular_attention_mask PASSED           [ 88%]
+tests/test_model.py::test_forward_shape_and_backward PASSED              [ 92%]
+tests/test_model.py::test_causal_mask_blocks_future_positions PASSED     [ 96%]
+tests/test_model.py::test_sequence_length_exceeds_max_raises PASSED      [100%]
+
+============================= 25 passed in 3.21s ==============================

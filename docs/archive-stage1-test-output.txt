@@ -1,0 +1,24 @@
+正确版：
+D:\剑指\学习日志\month 02\week 01\day 01\code_work>python test_model.py
+input_ids shape: torch.Size([4, 16])
+logits shape: torch.Size([4, 16, 5000])
+backward passed
+all basic tests passed
+
+运行错误模型版：
+D:\剑指\学习日志\month 02\week 01\day 01\code_work>python test_model.py
+input_ids shape: torch.Size([4, 16])
+logits shape: torch.Size([4, 16, 5000])
+backward passed
+Traceback (most recent call last):
+  File "D:\剑指\学习日志\month 02\week 01\day 01\code_work\test_model.py", line 77, in <module>
+    error_model(input_ids)
+  File "D:\Anaconda3\Lib\site-packages\torch\nn\modules\module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Anaconda3\Lib\site-packages\torch\nn\modules\module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\剑指\学习日志\month 02\week 01\day 01\code_work\mini_gpt.py", line 49, in forward
+    raise ValueError("L is greater than max_seq_len!")
+ValueError: L is greater than max_seq_len!

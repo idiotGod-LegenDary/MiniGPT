@@ -1,0 +1,23 @@
+D:\剑指\学习日志\month 02\week 02\day 02\code_work>python -m pytest -q test_gqa.py
+...............                                                                                                  [100%]
+15 passed in 2.97s
+
+D:\剑指\学习日志\month 02\week 02\day 02\code_work>python demo.py
+=== MHA (num_kv_heads=8) ===
+  compact K shape: (1, 8, 6, 8)
+  compact V shape: (1, 8, 6, 8)
+  cache bytes: 6144
+  max abs diff: 2.384185791015625e-07
+  KV Cache consistency: passed
+=== GQA (num_kv_heads=2) ===
+  compact K shape: (1, 2, 6, 8)
+  compact V shape: (1, 2, 6, 8)
+  cache bytes: 1536
+  max abs diff: 2.384185791015625e-07
+  KV Cache consistency: passed
+=== MQA (num_kv_heads=1) ===
+  compact K shape: (1, 1, 6, 8)
+  compact V shape: (1, 1, 6, 8)
+  cache bytes: 768
+  max abs diff: 2.384185791015625e-07
+  KV Cache consistency: passed
