@@ -171,18 +171,20 @@ def load_adapter_package(
         raise ValueError("format version mismatch")
     if package['base_model_id'] != expected_base_model_id:
         raise ValueError("base model id mismatch")
-    
-    cfg = package['adapter_config']
-    if set(cfg) != set(expected_config):
-        raise ValueError("config keys mismatch")
-    
-    for k in expected_config:
-        a, b = expected_config[k], cfg[k]
-        if isinstance(a, torch.Tensor) or isinstance(a, (int, float)):
-            if not torch.allclose(torch.as_tensor(a), torch.as_tensor(b)):
-                raise ValueError(f"{k} value mismatch")
-        elif a != b:
-            raise ValueError(f"{k} value mismatch")
+        
+    cfg = package["adapter_config"]
+
+    if not isinstance(cfg, dict) or not isinstance(expected_config, dict):
+        raise TypeError("Adapter config must be dict")
+
+    if cfg.keys() != expected_config.keys():
+        raise ValueError("Adapter config mismatch")
+
+    for key, value in expected_config.items():
+        saved = cfg[key]
+
+        if type(saved) is not type(value) or saved != value:
+            raise ValueError(f"Adapter config mismatch at：{key}")
 
     names = package['adapter_names']
     if not isinstance(names, list) or not names:
