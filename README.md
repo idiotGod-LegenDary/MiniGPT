@@ -49,6 +49,38 @@ MiniGPT/
 - 教学规模实现（d_model 64–128、2–3 层），未做推理性能优化（如缓存 `torch.cat` 的拷贝开销、GQA 分组广播可进一步向量化）
 - 后续计划：基于 nanoGPT 的字符级从零预训练、TRL + LoRA 的 DPO 偏好对齐实验（独立仓库）
 
+## 训练与实验复现
+
+项目新增了训练数据管线、训练与验证循环、
+Checkpoint 状态管理、Adapter 参数管理、LoRA 注意力注入及
+可复现实验入口。
+
+### 运行实验
+
+python -m experiments.run_toy --seed 42 --steps 12 --output runs/day05_a.json
+python -m experiments.run_toy --seed 42 --steps 12 --output runs/day05_b.json
+python -m experiments.compare_saved runs/day05_a.json runs/day05_b.json
+
+### 实验结果
+
+- 环境：Windows / CPU
+- 数据：周期性合成 Token
+- 训练步数：12
+- Baseline Val Loss：3.020242
+- Final Val Loss：2.686459
+- 同配置两次运行最大 Loss 差异：0
+- 本地全项目测试：153 passed
+
+### 实验局限
+
+以上实验只验证模型训练流程及同环境结果复现。
+合成数据不代表真实自然语言分布。
+
+LoRA 通过运行时注入（`training/lora_integration.py` 的
+`inject_lora_attention`）挂到已有 Attention 的 q/v 投影上，
+不改动 `model/` 下的模型定义；注入后基础权重保持冻结，
+只有 Adapter 参数参与训练。
+
 ## 参考
 
 - [nanoGPT](https://github.com/karpathy/nanoGPT)（karpathy）
