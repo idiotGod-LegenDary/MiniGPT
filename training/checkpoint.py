@@ -79,9 +79,6 @@ def make_checkpoint(
             'rng_state':torch.get_rng_state().clone()
             }
 
-
-
-
 def save_checkpoint(path: str | Path, checkpoint: dict[str, Any]) -> Path:
     """TODO 2：将 Checkpoint 安全保存到本地文件。
 

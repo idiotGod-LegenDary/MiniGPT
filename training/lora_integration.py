@@ -170,7 +170,7 @@ def inject_lora_attention(
     if not attn_modules:
         raise ValueError("no CausalSelfAttention found in model")
 
-    for attn_name, attn in attn_modules:
+    for attn_name, attn in attn_modules:# 再从所有模块中找出需要的层
 
         for attr in targets: # 按照targets里的模块名寻找匹配
             if not hasattr(attn, attr):
