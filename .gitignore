@@ -10,3 +10,7 @@ __pycache__/
 outputs/
 wandb/
 .venv/
+
+# 课程发布的参考草案：内容已被 README 与 docs/minigpt_v1_final.md 吸收，
+# 保留在本地即可，避免正式文档与草案出现两份不同步的说明。
+release_templates/
