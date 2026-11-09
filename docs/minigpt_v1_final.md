@@ -1,7 +1,7 @@
 # MiniGPT V1 最终工程报告
 
 > 课程编号：month 03 day 06；Git 任务标识：m03d08。
-> 代码基线提交：`f5e16a8`；分支：`feat/m03d08-minigpt-v1-release`。
+> 证据基线提交：`f5e16a8`；开发分支：`feat/m03d08-minigpt-v1-release`；已合并至 `main`（merge commit `077134a`）。
 > 本报告中的全部数值均来自该基线上**当日复跑**的测试日志与实验产物，不是历史记忆值。
 
 ## 一、项目定位
@@ -125,7 +125,7 @@ python -m tools.m03d08_release_audit
 | Day 07 | 验证输出前切换 eval 模式 | **已修复**：`full_model`、`lora_model`、`reload_base`、`merged_lora` 均在 `eval()` + `torch.no_grad()` 下测量 |
 | 收尾 | 审计脚本的参数量校验接受 `256.0` 等浮点值 | **已修复**：`positive_int()` 改为 `type(value) is int`，浮点与 `bool` 一律拒绝，并补 3 项回归测试 |
 | 收尾 | 文档中的 LoRA 关键字参数名写成 `targets` | **已修复**：README 与报告统一为真实签名 `target_modules` |
-| Git | 是否合并到 main | **未合并**：M03D08 分支仍待评审；`main` 尚未包含 `training/`、`experiments/`、`tools/` |
+| Git | 是否合并到 main | **已合并**：`git merge --no-ff feat/m03d08-minigpt-v1-release` → merge commit `077134a`；合并后在 `main` 上复跑 204 passed 并推送 |
 
 ## 八、后续计划
 

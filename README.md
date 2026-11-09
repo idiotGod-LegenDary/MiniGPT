@@ -14,15 +14,15 @@
 
 | 项目 | 值 |
 |---|---|
-| 分支 | `feat/m03d08-minigpt-v1-release` |
-| 代码基线提交 | `f5e16a8` |
-| 测试 | `python -m pytest tests/ -q` → **204 passed, 0 failed, 0 skipped**（6.87s）|
+| 分支 | `main`（已合并 `feat/m03d08-minigpt-v1-release`，merge commit `077134a`）|
+| 证据基线提交 | `f5e16a8`（实验与审计数值在该提交上生成）|
+| 测试 | `python -m pytest tests/ -q` → **204 passed, 0 failed, 0 skipped**（8.10s on `main`）|
 | 环境 | Windows 10 / CPU / Python 3.10.9 / PyTorch 2.6.0+cpu |
 | 审计产物 | `docs/m03d08_release_audit.md`、`runs/m03d08_release_audit.json` |
 | 最终报告 | [`docs/minigpt_v1_final.md`](docs/minigpt_v1_final.md) |
 
 > 旧版 README 中的「`main` 分支 25 passed」是**仅含三阶段模型代码时**的历史数据；
-> 当前分支已增加训练工程、LoRA 与实验模块，测试范围不同，不应与 204 混用或互相比较。
+> 当前 `main` 已包含训练工程、LoRA 与实验模块，测试范围不同，不应与 204 混用或互相比较。
 
 ---
 
