@@ -1,0 +1,15 @@
+﻿........................................................................ [ 35%]
+........................................................................ [ 70%]
+............................................................             [100%]
+============================ slowest 10 durations =============================
+1.92s call     tests/test_adapter_io.py::test_disk_roundtrip_and_output_equivalence
+0.18s call     tests/test_full_lora_comparison.py::test_same_config_repeatable
+0.11s call     tests/test_experiment_day05.py::test_real_minigpt_experiment_and_reproducibility_when_available
+0.11s call     tests/test_full_lora_comparison.py::test_full_comparison_integrated
+0.11s call     tests/test_checkpoint.py::test_reject_bad_model_key_and_shape_before_modifying
+0.03s call     tests/test_model.py::test_forward_shape_and_backward
+0.03s call     tests/test_checkpoint.py::test_minigpt_integration_when_available
+0.03s call     tests/test_checkpoint.py::test_rng_restore_and_exact_continuation
+0.03s call     tests/test_kv_cache.py::test_multiple_decode_steps
+0.03s call     tests/test_training_loop.py::test_integration_existing_minigpt_if_present
+204 passed in 6.87s

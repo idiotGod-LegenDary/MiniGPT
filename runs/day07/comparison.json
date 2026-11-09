@@ -1,0 +1,111 @@
+{
+  "config": {
+    "seed": 42,
+    "vocab_size": 16,
+    "block_size": 6,
+    "train_tokens": 96,
+    "val_tokens": 56,
+    "batch_size": 6,
+    "num_steps": 6,
+    "eval_every": 3,
+    "learning_rate": 0.002,
+    "d_model": 16,
+    "d_ff": 32,
+    "num_layers": 2,
+    "dropout": 0.0,
+    "rank": 2,
+    "alpha": 4.0,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "W_q",
+      "W_v"
+    ]
+  },
+  "data_note": "合成 tokens；仅验证数值与系统正确性，不是 SFT 胜负结论。",
+  "initial_max_abs_diff": 0.0,
+  "full": {
+    "baseline_val_loss": 2.8351817607879637,
+    "final_val_loss": 2.6387595176696776,
+    "history": [
+      {
+        "step": 1,
+        "train_loss": 2.8360207080841064
+      },
+      {
+        "step": 2,
+        "train_loss": 2.855520248413086
+      },
+      {
+        "step": 3,
+        "train_loss": 2.786329507827759,
+        "val_loss": 2.7373838233947754
+      },
+      {
+        "step": 4,
+        "train_loss": 2.821704387664795
+      },
+      {
+        "step": 5,
+        "train_loss": 2.667631149291992
+      },
+      {
+        "step": 6,
+        "train_loss": 2.6657421588897705,
+        "val_loss": 2.6387595176696776
+      }
+    ],
+    "stats": {
+      "total_params": 5104,
+      "trainable_params": 5104,
+      "trainable": 5104,
+      "trainable_ratio": 1.0
+    }
+  },
+  "lora": {
+    "baseline_val_loss": 2.8351817607879637,
+    "final_val_loss": 2.830073843002319,
+    "history": [
+      {
+        "step": 1,
+        "train_loss": 2.8360207080841064
+      },
+      {
+        "step": 2,
+        "train_loss": 2.874694347381592
+      },
+      {
+        "step": 3,
+        "train_loss": 2.835970163345337,
+        "val_loss": 2.832899799346924
+      },
+      {
+        "step": 4,
+        "train_loss": 2.9284894466400146
+      },
+      {
+        "step": 5,
+        "train_loss": 2.7845733165740967
+      },
+      {
+        "step": 6,
+        "train_loss": 2.8083083629608154,
+        "val_loss": 2.830073843002319
+      }
+    ],
+    "stats": {
+      "total_params": 5360,
+      "trainable_params": 256,
+      "trainable": 256,
+      "trainable_ratio": 0.04776119402985075
+    }
+  },
+  "adapter": {
+    "base_unchanged": true,
+    "adapter_updated": true,
+    "changed_base": [],
+    "adapter_tensor_count": 8,
+    "adapter_file_bytes": 4160,
+    "reload_max_abs_diff": 0.0,
+    "merge_max_abs_diff": 4.76837158203125e-07
+  }
+}

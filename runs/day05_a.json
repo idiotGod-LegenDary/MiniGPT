@@ -1,0 +1,87 @@
+{
+  "config": {
+    "seed": 42,
+    "vocab_size": 16,
+    "block_size": 8,
+    "train_tokens": 192,
+    "val_tokens": 96,
+    "batch_size": 8,
+    "num_steps": 12,
+    "eval_every": 4,
+    "learning_rate": 0.001,
+    "d_model": 32,
+    "d_ff": 64,
+    "num_layers": 1,
+    "dropout": 0.0
+  },
+  "environment": {
+    "python": "3.10.9 (tags/v3.10.9:1dd9be6, Dec  6 2022, 20:01:21) [MSC v.1934 64 bit (AMD64)]",
+    "torch": "2.6.0+cpu",
+    "platform": "Windows",
+    "device": "cpu"
+  },
+  "baseline_val_loss": 3.0202421058307993,
+  "final_val_loss": 2.6864593029022217,
+  "history": [
+    {
+      "step": 1,
+      "train_loss": 3.0525479316711426
+    },
+    {
+      "step": 2,
+      "train_loss": 2.9405808448791504
+    },
+    {
+      "step": 3,
+      "train_loss": 2.8911800384521484
+    },
+    {
+      "step": 4,
+      "train_loss": 3.001026153564453,
+      "val_loss": 2.903849883513017
+    },
+    {
+      "step": 5,
+      "train_loss": 2.8636252880096436
+    },
+    {
+      "step": 6,
+      "train_loss": 2.9001212120056152
+    },
+    {
+      "step": 7,
+      "train_loss": 2.751678228378296
+    },
+    {
+      "step": 8,
+      "train_loss": 2.8021867275238037,
+      "val_loss": 2.7947597286917945
+    },
+    {
+      "step": 9,
+      "train_loss": 2.778318405151367
+    },
+    {
+      "step": 10,
+      "train_loss": 2.813521146774292
+    },
+    {
+      "step": 11,
+      "train_loss": 2.8030574321746826
+    },
+    {
+      "step": 12,
+      "train_loss": 2.7524499893188477,
+      "val_loss": 2.6864593029022217
+    }
+  ],
+  "summary": {
+    "num_steps": 12,
+    "first_train_loss": 3.0525479316711426,
+    "last_train_loss": 2.7524499893188477,
+    "best_val_loss": 2.6864593029022217,
+    "best_val_step": 12,
+    "last_val_loss": 2.6864593029022217
+  },
+  "data_note": "周期性合成 Token，无自然语言泛化结论"
+}
