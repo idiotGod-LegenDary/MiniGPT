@@ -160,6 +160,17 @@ def test_bad_rank_no_partial_injection():
     assert isinstance(model.net[1].attn.W_v, nn.Linear)
 
 
+@pytest.mark.parametrize("bad_rank", ["4", 4.0, True, 0, -2])
+def test_rank_type_checked_before_dimension_compare(bad_rank):
+    """非法 rank 必须抛 ValueError，且发生在维度比较之前、不留下部分注入。"""
+    model = make_model(layers=2)
+    with pytest.raises(ValueError):
+        inject_lora_attention(model, rank=bad_rank)
+    assert isinstance(model.net[0].attn.W_q, nn.Linear)
+    assert isinstance(model.net[1].attn.W_v, nn.Linear)
+    assert all(p.requires_grad for p in model.parameters())
+
+
 def test_no_attention_no_injection():
     model = nn.Sequential(nn.Linear(16, 16))
     with pytest.raises(ValueError):

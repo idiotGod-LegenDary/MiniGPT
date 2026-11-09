@@ -154,6 +154,22 @@ def test_extract_invalid_values_rejected(path, value):
         extract_experiment_evidence(data)
 
 
+@pytest.mark.parametrize("path,value", [
+    (("full", "stats", "trainable_params"), 5104.0),
+    (("lora", "stats", "trainable_params"), 256.0),
+    (("adapter", "adapter_file_bytes"), 4160.0),
+])
+def test_float_param_counts_rejected(path, value):
+    """参数量必须是真正的 int；256.0 这类"数值相等但不是整数"的输入不能放行。"""
+    data = sample_comparison()
+    node = data
+    for key in path[:-1]:
+        node = node[key]
+    node[path[-1]] = value
+    with pytest.raises(ValueError):
+        extract_experiment_evidence(data)
+
+
 def test_missing_experiment_field_rejected():
     data = sample_comparison()
     del data["lora"]["baseline_val_loss"]

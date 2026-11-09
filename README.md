@@ -16,13 +16,13 @@
 |---|---|
 | 分支 | `feat/m03d08-minigpt-v1-release` |
 | 代码基线提交 | `f5e16a8` |
-| 测试 | `python -m pytest tests/ -q` → **196 passed, 0 failed, 0 skipped**（7.04s）|
+| 测试 | `python -m pytest tests/ -q` → **204 passed, 0 failed, 0 skipped**（6.87s）|
 | 环境 | Windows 10 / CPU / Python 3.10.9 / PyTorch 2.6.0+cpu |
 | 审计产物 | `docs/m03d08_release_audit.md`、`runs/m03d08_release_audit.json` |
 | 最终报告 | [`docs/minigpt_v1_final.md`](docs/minigpt_v1_final.md) |
 
 > 旧版 README 中的「`main` 分支 25 passed」是**仅含三阶段模型代码时**的历史数据；
-> 当前分支已增加训练工程、LoRA 与实验模块，测试范围不同，不应与 196 混用或互相比较。
+> 当前分支已增加训练工程、LoRA 与实验模块，测试范围不同，不应与 204 混用或互相比较。
 
 ---
 
@@ -72,8 +72,8 @@
 `training/lora_integration.py`：
 
 - `LoRALinear`：包装原始 `nn.Linear`，`y = Wx + (alpha/rank)·B(A(x))`，`A` / `B` 中一者零初始化，保证注入后初始输出与原始层完全一致
-- `inject_lora_attention(model, targets=("W_q","W_v"), ...)`：**运行时注入**，遍历 `CausalSelfAttention` 把目标投影替换为 `LoRALinear`，不改动 `model/` 下的模型定义
-- 基础权重全程 `requires_grad=False`，只有 `A` / `B` 参与训练；注入前校验 rank、alpha、dropout、targets 的配置类型与取值
+- `inject_lora_attention(model, target_modules=("W_q","W_v"), ...)`：**运行时注入**，遍历 `CausalSelfAttention` 把目标投影替换为 `LoRALinear`，不改动 `model/` 下的模型定义
+- 基础权重全程 `requires_grad=False`，只有 `A` / `B` 参与训练；注入前校验 `rank`、`alpha`、`dropout`、`target_modules` 的类型与取值，校验不通过时不会留下部分注入
 - Merge：把 `B @ A * (alpha/rank)` 加回基础权重后还原为普通 `nn.Linear`，供推理使用
 
 注入效果以实测为准（见下节对照实验）：8 个 Adapter 张量、初始输出差异 `0.0`、基础权重未变。
@@ -96,7 +96,7 @@
 
 ### Day 07：全参数训练 vs LoRA 训练
 
-两路实验共享**相同初始权重、相同 Batch 序列、相同优化器与学习率**，6 次更新，`rank=2`、`alpha=4.0`、targets 为 `W_q` / `W_v`：
+两路实验共享**相同初始权重、相同 Batch 序列、相同优化器与学习率**，6 次更新，`rank=2`、`alpha=4.0`、`target_modules=("W_q","W_v")`：
 
 | 指标 | 全参数训练 | LoRA 训练 |
 |---|---:|---:|
@@ -123,7 +123,7 @@ Adapter 文件大小 4,160 字节。产物：`runs/day07/comparison.json`。
 ```bash
 python -m pip install -r requirements.txt        # torch>=2.2, pytest>=8
 
-python -m pytest tests/ -q                       # 全量 196 passed
+python -m pytest tests/ -q                       # 全量 204 passed
 python -m pytest tests/ -q --durations=10 > runs/m03d08_pytest.txt
 
 # 模型演示
@@ -155,7 +155,7 @@ MiniGPT/
 ├─ training/         # 数据管线、训练循环、Checkpoint、Adapter IO、LoRA 注入
 ├─ experiments/      # 训练复现入口、结果对照与 JSON 报告
 ├─ tools/            # 发布证据审计工具
-├─ tests/            # 全量 pytest 套件（196 项）
+├─ tests/            # 全量 pytest 套件（204 项）
 ├─ demos/            # 可运行演示脚本
 ├─ docs/             # 阶段历史输出存档、审计小结、最终报告
 ├─ runs/             # 实验产物与测试日志（小型 JSON / 文本摘要）

@@ -141,6 +141,18 @@ def inject_lora_attention(
     # TODO 3：先完整校验，再包装投影，并复用 Day 04 冻结工具。
     if not isinstance(model, nn.Module):
         raise TypeError("model must be nn.Module")
+
+    # 超参校验必须先于任何层的收集与包装：
+    # 否则非法 rank 会先在维度比较处抛 TypeError，甚至留下部分注入。
+    if type(rank) is not int or rank <= 0:
+        raise ValueError("rank must be a positive integer")
+    if (isinstance(alpha, bool) or not isinstance(alpha, (int, float))
+            or not math.isfinite(alpha) or alpha <= 0):
+        raise ValueError("alpha must be a finite positive real number")
+    if (isinstance(dropout, bool) or not isinstance(dropout, (int, float))
+            or not math.isfinite(dropout) or not 0.0 <= dropout < 1.0):
+        raise ValueError("dropout must be a finite real in [0, 1)")
+
     if isinstance(target_modules, str) or not isinstance(target_modules, Sequence):
         raise TypeError("target_modules must be a sequence of str")
 

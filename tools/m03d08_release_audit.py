@@ -198,10 +198,11 @@ def extract_experiment_evidence(report: Mapping[str, Any]) -> dict[str, Any]:
 
     # ---- 参数量：正整数 ----
     def positive_int(value, field):
-        num = _finite_number(value, field)   # 先保证是有限实数
-        if num <= 0 or num != int(num):
+        # 严格按契约只接受真正的 int：256.0、True 这类"数值上像整数"的输入
+        # 不是合法参数量，不能被静默转换。
+        if type(value) is not int or value <= 0:
             raise ValueError(f"{field} 必须是正整数")
-        return int(num)
+        return value
 
     full_stats = get(full, "stats", "full.stats")
     lora_stats = get(lora, "stats", "lora.stats")

@@ -54,16 +54,16 @@ python -m tools.m03d08_release_audit
 
 | 指标 | 值 |
 |---|---:|
-| 通过 | 196 |
+| 通过 | 204 |
 | 失败 | 0 |
 | 跳过 | 0 |
-| 耗时 | 7.04 秒 |
+| 耗时 | 6.87 秒 |
 
-日志：`runs/m03d08_pytest.txt`（同日另一次运行记录为 19.28s，为机器负载差异，不影响通过数）。
+日志：`runs/m03d08_pytest.txt`（本次共 204 项，含本轮新增的 8 项回归测试；早前一次记录为 19.28s，属机器负载差异，不影响通过数）。
 
 ### 4.2 Day 07：全参数训练 vs LoRA 训练
 
-两路实验共享相同初始权重、相同 Batch 序列、相同优化器种类与学习率，6 次更新；`rank=2`、`alpha=4.0`、`lora_dropout=0.0`、targets 为 `W_q` / `W_v`。
+两路实验共享相同初始权重、相同 Batch 序列、相同优化器种类与学习率，6 次更新；`rank=2`、`alpha=4.0`、`lora_dropout=0.0`、`target_modules=("W_q","W_v")`。
 
 | 指标 | 全参数 | LoRA |
 |---|---:|---:|
@@ -120,9 +120,11 @@ python -m tools.m03d08_release_audit
 | Day 03 | RNG 状态预校验 | **已修复**：`load_checkpoint()` 中 `rng_state` 的类型校验位于 `model.load_state_dict(...)` **之前**，非法状态不会先改模型 |
 | Day 04 | Adapter metadata 严格比较类型和值，不用近似 `allclose` | **已修复**：`load_adapter_package()` 改为键集合 + `type` 与值的严格比对 |
 | Day 04 | 保存/加载后空行与注释整理 | **已修复**：随 `f5e16a8` 一并清理 |
-| Day 06 | LoRA 注入前参数配置类型校验 | **已修复**：`LoRALinear.__init__()` 校验 `rank`/`alpha`/`dropout`，`inject_lora_attention()` 校验 `target_modules` 类型、重复项、未知目标、已注入与 `rank` 越界 |
+| Day 06 | LoRA 注入前参数配置类型校验 | **已修复**：`inject_lora_attention()` 入口先用 `type(rank) is not int` 校验 `rank` 及 `alpha`/`dropout`，早于任何层收集与维度比较；随后校验 `target_modules` 类型、重复项、未知目标、已注入与 `rank` 越界。`LoRALinear.__init__()` 另有独立校验作为兜底 |
 | Day 07 | 恢复时使用 `config.lora_dropout` | **已修复**：`_adapter_config()` 用 `config.lora_dropout` 重建 LoRA 配置，而不是主 dropout |
 | Day 07 | 验证输出前切换 eval 模式 | **已修复**：`full_model`、`lora_model`、`reload_base`、`merged_lora` 均在 `eval()` + `torch.no_grad()` 下测量 |
+| 收尾 | 审计脚本的参数量校验接受 `256.0` 等浮点值 | **已修复**：`positive_int()` 改为 `type(value) is int`，浮点与 `bool` 一律拒绝，并补 3 项回归测试 |
+| 收尾 | 文档中的 LoRA 关键字参数名写成 `targets` | **已修复**：README 与报告统一为真实签名 `target_modules` |
 | Git | 是否合并到 main | **未合并**：M03D08 分支仍待评审；`main` 尚未包含 `training/`、`experiments/`、`tools/` |
 
 ## 八、后续计划
